@@ -1,26 +1,232 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens — Exa-inspired light theme.
+ * Single light theme (no dark mode) to keep the consulting aesthetic
+ * consistent with the brand. Components reference these via the
+ * `--*` CSS custom properties or via the Tailwind utility map below.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --background: #ffffff;          /* main canvas */
+  --surface: #ffffff;             /* raised cards / panels */
+  --surface-alt: #faf9f8;         /* "marble" — sidebars, code, hover, deeper insets */
+  --surface-deep: #f0eeec;        /* deeper hover on cream surfaces */
+
+  /* Text */
+  --foreground: #111111;          /* ink */
+  --muted: #6b7280;               /* secondary text */
+
+  /* Borders */
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
+
+  /* Brand & semantic */
+  --accent: #1e40ed;              /* Exa blue */
+  --accent-dark: #1734c8;
+  --accent-foreground: #ffffff;
+  --info: #1e40ed;                /* consolidated to brand blue */
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-card: 16px;
+  --radius-input: 12px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px rgba(17, 17, 17, 0.04);
+  --shadow-elevated: 0 12px 40px rgba(17, 17, 17, 0.08);
 }
 
 @theme inline {
+  /* Map CSS variables to Tailwind utility classes. */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-deep: var(--surface-deep);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  /* Brand-named utilities (e.g. bg-exa-blue, text-exa-ink). */
+  --color-exa-blue: #1e40ed;
+  --color-exa-marble: #faf9f8;
+  --color-exa-ink: #111111;
+  --color-exa-muted: #6b7280;
+  --color-exa-border: #e7e5e4;
+
+  --radius-card: var(--radius-card);
+  --radius-input: var(--radius-input);
+
+  --shadow-exa: var(--shadow-card);
+  --shadow-exa-lg: var(--shadow-elevated);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  border-color: var(--border);
+}
+
+::selection {
+  background: rgba(30, 64, 237, 0.15);
+  color: var(--foreground);
+}
+
+/* Hide horizontal scrollbar on tab bars while keeping it scrollable. */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ----- Markdown body ----- */
+.markdown-body {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--foreground);
+}
+.markdown-body h1 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.75rem;
+  letter-spacing: -0.018em;
+}
+.markdown-body h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+  letter-spacing: -0.012em;
+}
+.markdown-body h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+  letter-spacing: -0.005em;
+}
+.markdown-body p {
+  margin: 0.5rem 0;
+}
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+.markdown-body li {
+  margin: 0.25rem 0;
+}
+.markdown-body ul {
+  list-style-type: disc;
+}
+.markdown-body ol {
+  list-style-type: decimal;
+}
+.markdown-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(30, 64, 237, 0.3);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.15s ease;
+}
+.markdown-body a:hover {
+  text-decoration-color: var(--accent);
+}
+.markdown-body code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.85em;
+}
+.markdown-body pre {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.875rem 1rem;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+.markdown-body pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+.markdown-body blockquote {
+  border-left: 3px solid var(--border-strong);
+  padding-left: 0.875rem;
+  color: var(--muted);
+  margin: 0.75rem 0;
+}
+.markdown-body table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.markdown-body th,
+.markdown-body td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+  vertical-align: top;
+}
+.markdown-body tr:last-child th,
+.markdown-body tr:last-child td {
+  border-bottom: 0;
+}
+.markdown-body th {
+  background: var(--surface-alt);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.markdown-body hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.75rem 0;
+}
+
+/* ----- Animated dot for "running" status ----- */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(30, 64, 237, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(30, 64, 237, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(30, 64, 237, 0);
+  }
+}
+.pulse-dot {
+  animation: pulse-ring 1.6s infinite;
 }
